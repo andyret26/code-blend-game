@@ -75,13 +75,13 @@ Matter.Render.run(render);
 
 const circles = [];
 
-document.body.onclick = () => {
+document.body.onclick = (event) => {
   const radius = Math.floor(Math.random() * 100 + 20);
   const circle = new PIXI.Graphics();
   circle.beginFill(0xffffff);
   circle.drawCircle(0, 0, radius);
   circle.endFill();
-  circle.x = Math.random() * containerWidth + 200; // Position circles within the container
+  circle.x = event.clientX;
   circle.y = 0;
   app.stage.addChild(circle);
 
