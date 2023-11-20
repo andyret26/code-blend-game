@@ -75,6 +75,27 @@ Matter.Render.run(render);
 
 const circles = [];
 
+// Add a collision event listener to detect collisions with the ground
+Matter.Events.on(engine, 'collisionStart', (event) => {
+  const pairs = event.pairs;
+  for (let i = 0; i < pairs.length; i++) {
+    const pair = pairs[i];
+    // Find corresponding circle objects for bodyA and bodyB
+    const circleObjA = circles.find(circleObj => circleObj.body === pair.bodyA);
+    const circleObjB = circles.find(circleObj => circleObj.body === pair.bodyB);
+
+    // Check if one of the bodies is a circle and the other is the ground
+    if (circleObjA && circleObjB) {
+      // Perform actions when a collision with the ground occurs
+
+
+      // you can change the color of the circle
+      circleObjA.circle.tint = 0xff0000; // This will turn the circle red
+    }
+  }
+});
+
+
 document.body.onclick = (event) => {
   const radius = Math.floor(Math.random() * 100 + 20);
   const circle = new PIXI.Graphics();
@@ -99,5 +120,8 @@ document.body.onclick = (event) => {
     Matter.Body.applyForce(circleBody, circleBody.position, { x: 0, y: 0.002 });
   });
 
-  circles.push({ circle, ticker, body: circleBody });
+  circle.interactive = true;
+
+
+  circles.push({ circle, ticker, body: circleBody, size: 1 });
 };
