@@ -1,3 +1,4 @@
+// Create PIXI.js application
 const app = new PIXI.Application({
   background: "#1099bb",
   resizeTo: window,
@@ -5,27 +6,60 @@ const app = new PIXI.Application({
 
 document.body.appendChild(app.view);
 
-// create a new Sprite from an image path
-const bunny = PIXI.Sprite.from("https://pixijs.com/assets/bunny.png");
+// Create Matter.js engine
+const engine = Matter.Engine.create();
 
-// center the sprite's anchor point
-bunny.anchor.set(0.5);
-
-// move the sprite to the center of the screen
-bunny.x = app.screen.width / 2;
-bunny.y = app.screen.height / 2;
-
-app.stage.addChild(bunny);
-
-// Listen for animate update
-app.ticker.add((delta) => {
-  // just for fun, let's rotate mr rabbit a little
-  // delta is 1 if running at 100% performance
-  // creates frame-independent transformation
-  bunny.rotation += 0.1 * delta;
+// Create Matter.js renderer
+const render = Matter.Render.create({
+  element: document.body,
+  engine: engine,
 });
 
+// Set up Matter.js ground
+const ground = Matter.Bodies.rectangle(
+  app.screen.width / 2,
+  app.screen.height - 25,
+  app.screen.width,
+  50,
+  { isStatic: true }
+);
+Matter.World.add(engine.world, ground);
+
+// Run Matter.js engine and renderer
+Matter.Engine.run(engine);
+Matter.Render.run(render);
+
+const bunnies = [];
+
 document.body.onclick = () => {
+  const bunny = PIXI.Sprite.from("https://pixijs.com/assets/bunny.png");
+  bunny.anchor.set(0.5);
   bunny.x = Math.random() * app.screen.width;
+  bunny.y = 0;
   app.stage.addChild(bunny);
+
+  // Create Matter.js body for each bunny
+  const bunnyBody = Matter.Bodies.rectangle(
+    bunny.x,
+    bunny.y,
+    bunny.width,
+    bunny.height
+  );
+  Matter.World.add(engine.world, bunnyBody);
+
+  const ticker = app.ticker.add(() => {
+    // Update PIXI.js sprite position based on Matter.js body position
+    bunny.position.set(bunnyBody.position.x, bunnyBody.position.y);
+
+    // Apply gravity to the bunny
+    Matter.Body.applyForce(bunnyBody, bunnyBody.position, { x: 0, y: 0.002 });
+
+    // Check for collision with the ground
+    if (bunnyBody.position.y + bunny.height / 2 > app.screen.height - 25) {
+      // Apply an impulse to simulate a bounce
+      Matter.Body.applyForce(bunnyBody, bunnyBody.position, { x: 0, y: -0.02 });
+    }
+  });
+
+  bunnies.push({ bunny, ticker, body: bunnyBody });
 };
