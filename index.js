@@ -7,6 +7,9 @@ const app = new PIXI.Application({
   resizeTo: window,
 });
 
+let score = 0;
+updateScore();
+
 document.body.appendChild(app.view);
 
 // Create Matter.js engine with fixed time step and increased iterations
@@ -52,6 +55,10 @@ Matter.Events.on(engine, "collisionStart", (event) => {
         const y = circleObjA.body.position.y;
         const radius = circleObjA.size + 20;
 
+        //add radius to score
+        score += radius;
+        updateScore();
+
         // remove colliding circles from the stage
         app.stage.removeChild(circleObjA.circle);
         app.stage.removeChild(circleObjB.circle);
@@ -93,3 +100,7 @@ document.body.onclick = (event) => {
     canClick = true;
   }, 1000);
 };
+
+function updateScore() {
+  document.getElementById("score").innerHTML = score;
+}
