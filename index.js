@@ -7,7 +7,7 @@ const app = new PIXI.Application({
   resizeTo: window,
 });
 
-let score = 20;
+let score = 0;
 updateScore();
 
 document.body.appendChild(app.view);
@@ -56,6 +56,10 @@ Matter.Events.on(engine, "collisionStart", (event) => {
         const y = circleObjA.body.position.y;
         const radius = circleObjA.size + 20;
         console.log(x, y);
+
+        //add radius to score
+        score += radius;
+        updateScore();
 
         // remove colliding circles from the stage
         app.stage.removeChild(circleObjA.circle);
