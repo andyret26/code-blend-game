@@ -1,5 +1,6 @@
 import { CheckGameEdge } from "./CheckGameEdge.js";
 import { AddBodyTicker, CreateCircle } from "./CreateCircle.js";
+import { GetImgFromRadius } from "./GetImgFromRadius.js";
 import { CreateGameBoard } from "./world.js";
 
 // Create PIXI.js application
@@ -7,7 +8,7 @@ const app = new PIXI.Application({
   background: "#FBF4DA",
   resizeTo: window,
 });
-const radiusList = [20, 40, 60, 80, 100];
+const radiusList = [20, 40, 60, 80];
 let isStarted = false;
 let score = 0;
 let currentCircle = null;
@@ -71,13 +72,14 @@ Matter.Events.on(engine, "collisionStart", (event) => {
         Matter.World.remove(engine.world, circleObjA.body);
         Matter.World.remove(engine.world, circleObjB.body);
         // change this to what is belowe
+          
         const circle = CreateCircle(
           app,
           0xffffff,
           radius,
           x,
           y,
-          "./assets/orbs/ang.png"
+          GetImgFromRadius(radius)
         );
         const newCircleBody = AddBodyTicker(app, Matter, engine, circle, radius);
 
@@ -102,7 +104,7 @@ document.getElementsByTagName("canvas")[0].addEventListener("click", (e) => {
 
   // Create new current circle
   const radius = radiusList[Math.floor(Math.random() * radiusList.length)];
-  currentCircle = CreateCircle(app, 0xffffff, radius, e.clientX, 100, "./assets/orbs/ang.png");
+  currentCircle = CreateCircle(app, 0xffffff, radius, e.clientX, 100, GetImgFromRadius(radius));
 
 
   canClick = false;
@@ -120,7 +122,8 @@ document.getElementById("btn-start").addEventListener("click", (e) => {
   isStarted = true;
   e.target.style.display = "none";
   const radius = radiusList[Math.floor(Math.random() * radiusList.length)];
-  currentCircle = CreateCircle(app, 0xffffff, radius, e.clientX, 100, "./assets/orbs/ang.png");
+  const img = GetImgFromRadius(radius);
+  currentCircle = CreateCircle(app, 0xffffff, radius, e.clientX, 100, img);
   
 });
 
