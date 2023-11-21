@@ -85,7 +85,7 @@ Matter.Events.on(engine, "collisionStart", (event) => {
 });
 
 let canClick = true;
-document.getElementsByTagName("canvas")[0].addEventListener("click", () => {
+document.getElementsByTagName("canvas")[0].addEventListener("click", (e) => {
   if (!isStarted) return;
   if (!canClick) return;
   const radiusList = [20, 40, 60, 80, 100];
@@ -95,7 +95,7 @@ document.getElementsByTagName("canvas")[0].addEventListener("click", () => {
     app,
     0xffffff,
     radius,
-    event.clientX,
+    e.clientX,
     0,
     "./assets/orbs/Js.png"
   );
