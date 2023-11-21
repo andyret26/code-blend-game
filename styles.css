@@ -2,3 +2,29 @@ body {
   overflow: hidden;
   height: 100vh;
 }
+.orbsOrderContainer {
+  transform-origin: right;
+  transform: rotate(90deg);
+  bottom: -3%;
+  right: 14%;
+  height: 20%;
+  position: absolute;
+}
+img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.upNextContainer {
+  width: 10%;
+  top: 5%;
+  right: 10%;
+  position: absolute;
+}
+.scoreBoardContainer {
+  width: 20%;
+  top: 2%;
+  left: 6%;
+  position: absolute;
+}
