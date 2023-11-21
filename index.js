@@ -6,8 +6,10 @@ const app = new PIXI.Application({
   background: "#FBF4DA",
   resizeTo: window,
 });
+const radiusList = [20, 40, 60, 80, 100];
 let isStarted = false;
 let score = 0;
+let currentCircle = null;
 updateScore();
 
 document.body.appendChild(app.view);
@@ -88,26 +90,17 @@ let canClick = true;
 document.getElementsByTagName("canvas")[0].addEventListener("click", (e) => {
   if (!isStarted) return;
   if (!canClick) return;
-  const radiusList = [20, 40, 60, 80, 100];
+
+
+  // Add physics and collision to current cilcle so it drops
+  const circleBody = AddBodyTicker(app, Matter, engine, currentCircle, currentCircle._height/2);
+  circles.push({ circle: currentCircle, size: currentCircle._height/2, body: circleBody });
+
+
+  // Create new current circle
   const radius = radiusList[Math.floor(Math.random() * radiusList.length)];
+  currentCircle = CreateCircle(app, 0xffffff, radius, e.clientX, 100, "./assets/orbs/ang.png");
 
-  const circle = CreateCircle(
-    app,
-    0xffffff,
-    radius,
-    e.clientX,
-    0,
-    "./assets/orbs/Js.png"
-  );
-  console.log(circle);
-  const circleBody = AddBodyTicker(app, Matter, engine, circle, radius);
-
-  circles.push({ circle, size: radius, body: circleBody });
-
-  // setTimeout(() => {
-  //   const [newCircle, newCircleBody, newTickerfunc] = CreateCircle(app, Matter, engine, 0xffffff, radius, event.clientX, 0);
-
-  // }, 500)
 
   canClick = false;
   setTimeout(() => {
@@ -123,4 +116,12 @@ function updateScore() {
 document.getElementById("btn-start").addEventListener("click", (e) => {
   isStarted = true;
   e.target.style.display = "none";
+  const radius = radiusList[Math.floor(Math.random() * radiusList.length)];
+  currentCircle = CreateCircle(app, 0xffffff, radius, e.clientX, 100, "./assets/orbs/ang.png");
+  
+});
+
+app.view.addEventListener("mousemove", (e) => {
+  if (!isStarted) return;
+  currentCircle.position.set(e.clientX, 100);
 });
