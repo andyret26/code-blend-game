@@ -1,3 +1,4 @@
+import { CheckGameEdge } from "./CheckGameEdge.js";
 import { AddBodyTicker, CreateCircle } from "./CreateCircle.js";
 import { CreateGameBoard } from "./world.js";
 
@@ -90,6 +91,8 @@ let canClick = true;
 document.getElementsByTagName("canvas")[0].addEventListener("click", (e) => {
   if (!isStarted) return;
   if (!canClick) return;
+  if (CheckGameEdge(app, e.clientX)) return;
+
 
 
   // Add physics and collision to current cilcle so it drops
@@ -123,5 +126,6 @@ document.getElementById("btn-start").addEventListener("click", (e) => {
 
 app.view.addEventListener("mousemove", (e) => {
   if (!isStarted) return;
+  if (CheckGameEdge(app, e.clientX)) return;
   currentCircle.position.set(e.clientX, 100);
 });
