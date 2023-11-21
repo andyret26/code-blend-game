@@ -7,6 +7,9 @@ const app = new PIXI.Application({
   resizeTo: window,
 });
 
+let score = 20;
+updateScore();
+
 document.body.appendChild(app.view);
 
 // Create Matter.js engine with fixed time step and increased iterations
@@ -64,7 +67,15 @@ Matter.Events.on(engine, "collisionStart", (event) => {
         Matter.World.remove(engine.world, circleObjA.body);
         Matter.World.remove(engine.world, circleObjB.body);
 
-        const [circle, circleBody, ticker] = CreateCircle(app, Matter, engine, 0xffffff, radius, x, y);
+        const [circle, circleBody, ticker] = CreateCircle(
+          app,
+          Matter,
+          engine,
+          0xffffff,
+          radius,
+          x,
+          y
+        );
 
         circles.push({ circle, ticker, body: circleBody, size: radius });
       }
@@ -78,7 +89,15 @@ document.body.onclick = (event) => {
   const radiusList = [20, 40, 60, 80, 100];
   const radius = radiusList[Math.floor(Math.random() * radiusList.length)];
 
-  const [circle, circleBody, ticker] = CreateCircle(app, Matter, engine, 0xffffff, radius, event.clientX, 0);
+  const [circle, circleBody, ticker] = CreateCircle(
+    app,
+    Matter,
+    engine,
+    0xffffff,
+    radius,
+    event.clientX,
+    0
+  );
 
   circles.push({ circle, ticker, body: circleBody, size: radius });
   canClick = false;
@@ -86,3 +105,7 @@ document.body.onclick = (event) => {
     canClick = true;
   }, 1000);
 };
+
+function updateScore() {
+  document.getElementById("score").innerHTML = score;
+}

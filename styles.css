@@ -3,6 +3,7 @@ body {
   height: 100vh;
 }
 .orbsOrderContainer {
+  pointer-events: none;
   transform-origin: right;
   transform: rotate(90deg);
   bottom: -3%;
@@ -11,20 +12,41 @@ body {
   position: absolute;
 }
 img {
+  pointer-events: none;
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
 }
 
 .upNextContainer {
+  pointer-events: none;
   width: 10%;
   top: 5%;
   right: 10%;
   position: absolute;
 }
 .scoreBoardContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  pointer-events: none;
   width: 20%;
+  aspect-ratio: 1/1;
   top: 2%;
   left: 6%;
   position: absolute;
+  > * {
+    position: absolute;
+  }
+}
+.scoreStats {
+  margin-top: 40%;
+  z-index: 10;
+  text-align: center;
+}
+
+p {
+  color: black;
+  font-size: 1.5rem;
+  margin: 0;
 }
