@@ -72,11 +72,17 @@ Matter.Events.on(engine, "collisionStart", (event) => {
   }
 });
 
+let canClick = true;
 document.body.onclick = (event) => {
+  if (!canClick) return;
   const radiusList = [20, 40, 60, 80, 100];
   const radius = radiusList[Math.floor(Math.random() * radiusList.length)];
 
   const [circle, circleBody, ticker] = CreateCircle(app, Matter, engine, 0xffffff, radius, event.clientX, 0);
 
   circles.push({ circle, ticker, body: circleBody, size: radius });
+  canClick = false;
+  setTimeout(() => {
+    canClick = true;
+  }, 1000);
 };
