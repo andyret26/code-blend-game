@@ -76,9 +76,9 @@ Matter.Events.on(engine, "collisionStart", (event) => {
           y,
           "./assets/orbs/ang.png"
         );
-        const newCircle = AddBodyTicker(app, Matter, engine, circle, radius);
+        const newCircleBody = AddBodyTicker(app, Matter, engine, circle, radius);
 
-        circles.push({ circle: newCircle, size: radius, body: newCircleBody });
+        circles.push({ circle: circle, size: radius, body: newCircleBody });
       }
     }
   }
