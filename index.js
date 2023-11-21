@@ -48,7 +48,6 @@ Matter.Events.on(engine, "collisionStart", (event) => {
     if (circleObjA && circleObjB) {
       if (circleObjA.size === circleObjB.size) {
         // Perform actions when a collision with the ground occurs
-
         // you can change the color of the circle
         circleObjA.circle.tint = 0xff0000; // This will turn the circle red
         const x = circleObjA.body.position.x;
@@ -69,10 +68,17 @@ Matter.Events.on(engine, "collisionStart", (event) => {
         Matter.World.remove(engine.world, circleObjA.body);
         Matter.World.remove(engine.world, circleObjB.body);
         // change this to what is belowe
-        const circle = CreateCircle(app, 0xffffff, radius, x, y);
-        const circleBody = AddBodyTicker(app, Matter, engine, circle, radius);
+        const circle = CreateCircle(
+          app,
+          0xffffff,
+          radius,
+          x,
+          y,
+          "./assets/orbs/ang.png"
+        );
+        const newCircle = AddBodyTicker(app, Matter, engine, circle, radius);
 
-        circles.push({ circle, size: radius, body: circleBody });
+        circles.push({ circle: newCircle, size: radius, body: newCircleBody });
       }
     }
   }
@@ -84,11 +90,18 @@ document.body.onclick = (event) => {
   const radiusList = [20, 40, 60, 80, 100];
   const radius = radiusList[Math.floor(Math.random() * radiusList.length)];
 
-  const circle = CreateCircle(app, 0xffffff, radius, event.clientX, 0);
+  const circle = CreateCircle(
+    app,
+    0xffffff,
+    radius,
+    event.clientX,
+    0,
+    "./assets/orbs/Js.png"
+  );
+  console.log(circle);
   const circleBody = AddBodyTicker(app, Matter, engine, circle, radius);
 
   circles.push({ circle, size: radius, body: circleBody });
-  
 
   // setTimeout(() => {
   //   const [newCircle, newCircleBody, newTickerfunc] = CreateCircle(app, Matter, engine, 0xffffff, radius, event.clientX, 0);
