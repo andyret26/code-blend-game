@@ -20,12 +20,11 @@ export function CreateCircle(app, matter, engine, color, radius, spawnX, spawnY)
     
     app.stage.addChild(circle)
     matter.World.add(engine.world, circleBody);
-    const ticker = app.ticker.add(tickerfunc);
 
 
 
 
-    return [circle, circleBody, ticker];
+    return [circle, circleBody, tickerfunc];
 }
 
 export function test(app, circle) {

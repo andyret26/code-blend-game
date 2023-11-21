@@ -71,15 +71,8 @@ Matter.Events.on(engine, "collisionStart", (event) => {
         Matter.World.remove(engine.world, circleObjA.body);
         Matter.World.remove(engine.world, circleObjB.body);
 
-        const [circle, circleBody, ticker] = CreateCircle(
-          app,
-          Matter,
-          engine,
-          0xffffff,
-          radius,
-          x,
-          y
-        );
+        const [circle, circleBody, tickerFunc] = CreateCircle(app, Matter, engine, 0xffffff, radius, x, y);
+        const ticker = app.ticker.add(tickerFunc);
 
         circles.push({ circle, ticker, body: circleBody, size: radius });
       }
@@ -93,17 +86,11 @@ document.body.onclick = (event) => {
   const radiusList = [20, 40, 60, 80, 100];
   const radius = radiusList[Math.floor(Math.random() * radiusList.length)];
 
-  const [circle, circleBody, ticker] = CreateCircle(
-    app,
-    Matter,
-    engine,
-    0xffffff,
-    radius,
-    event.clientX,
-    0
-  );
+  const [circle, circleBody, tickerfunc] = CreateCircle(app, Matter, engine, 0xffffff, radius, event.clientX, 0);
+  const ticker = app.ticker.add(tickerfunc);
 
   circles.push({ circle, ticker, body: circleBody, size: radius });
+  
   canClick = false;
   setTimeout(() => {
     canClick = true;
