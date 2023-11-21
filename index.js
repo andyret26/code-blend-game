@@ -1,4 +1,4 @@
-import { CreateCircle } from "./CreateCircle.js";
+import { CreateCircle, test } from "./CreateCircle.js";
 
 // Create PIXI.js application
 const app = new PIXI.Application({
@@ -110,31 +110,9 @@ Matter.Events.on(engine, 'collisionStart', (event) => {
         Matter.World.remove(engine.world, circleObjA.body);
         Matter.World.remove(engine.world, circleObjB.body);
 
-        const circle = CreateCircle(0xffffff, radius, x, y);
-        app.stage.addChild(circle);
+        const [circle, circleBody, ticker] = CreateCircle(app, Matter, engine, 0xffffff, radius, x, y);
 
-         // Create Matter.js body for each circle
-  const circleBody = Matter.Bodies.circle(circle.x, circle.y, radius, {
-    restitution: 0.5,
-  });
-  Matter.World.add(engine.world, circleBody);
-
-  const ticker = app.ticker.add(() => {
-    // Update PIXI.js sprite position based on Matter.js body position
-    circle.position.set(circleBody.position.x, circleBody.position.y);
-
-    // Apply gravity to the circle
-    Matter.Body.applyForce(circleBody, circleBody.position, { x: 0, y: 0.002 });
-  });
-
-  circle.interactive = true;
-
-
-  circles.push({ circle, ticker, body: circleBody, size: radius });
-
-        
-
-
+        circles.push({ circle, ticker, body: circleBody, size: radius });
       }
     }
   }
@@ -144,30 +122,8 @@ Matter.Events.on(engine, 'collisionStart', (event) => {
 document.body.onclick = (event) => {
   const radiusList = [ 20, 40, 60, 80, 100 ];
   const radius = radiusList[Math.floor(Math.random() * radiusList.length)];
-  // const circle = new PIXI.Graphics();
-  // circle.beginFill(0xffffff);
-  // circle.drawCircle(0, 0, radius);
-  // circle.endFill();
-  // circle.x = event.clientX;
-  // circle.y = 0;
-  const circle = CreateCircle(0xffffff, radius, event.clientX, 0);
-  app.stage.addChild(circle);
 
-  // Create Matter.js body for each circle
-  const circleBody = Matter.Bodies.circle(circle.x, circle.y, radius, {
-    restitution: 0.5,
-  });
-  Matter.World.add(engine.world, circleBody);
-
-  const ticker = app.ticker.add(() => {
-    // Update PIXI.js sprite position based on Matter.js body position
-    circle.position.set(circleBody.position.x, circleBody.position.y);
-
-    // Apply gravity to the circle
-    Matter.Body.applyForce(circleBody, circleBody.position, { x: 0, y: 0.002 });
-  });
-
-  circle.interactive = true;
+  const [circle, circleBody, ticker] = CreateCircle(app, Matter, engine, 0xffffff, radius, event.clientX, 0);
 
 
   circles.push({ circle, ticker, body: circleBody, size: radius });
