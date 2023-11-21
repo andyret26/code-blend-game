@@ -1,4 +1,4 @@
-import { CreateCircle } from "./CreateCircle.js";
+import { AddBodyTicker, CreateCircle } from "./CreateCircle.js";
 import { CreateGameBoard } from "./world.js";
 
 // Create PIXI.js application
@@ -45,14 +45,12 @@ Matter.Events.on(engine, "collisionStart", (event) => {
     if (circleObjA && circleObjB) {
       if (circleObjA.size === circleObjB.size) {
         // Perform actions when a collision with the ground occurs
-        console.log(circleObjA);
 
         // you can change the color of the circle
         circleObjA.circle.tint = 0xff0000; // This will turn the circle red
         const x = circleObjA.body.position.x;
         const y = circleObjA.body.position.y;
         const radius = circleObjA.size + 20;
-        console.log(x, y);
 
         // remove colliding circles from the stage
         app.stage.removeChild(circleObjA.circle);
@@ -63,11 +61,11 @@ Matter.Events.on(engine, "collisionStart", (event) => {
         // remove colliding circles from the Matter.js world
         Matter.World.remove(engine.world, circleObjA.body);
         Matter.World.remove(engine.world, circleObjB.body);
+        // change this to what is belowe
+        const circle = CreateCircle(app, 0xffffff, radius, x, y);
+        const circleBody = AddBodyTicker(app, Matter, engine, circle, radius);
 
-        const [circle, circleBody, tickerFunc] = CreateCircle(app, Matter, engine, 0xffffff, radius, x, y);
-        const ticker = app.ticker.add(tickerFunc);
-
-        circles.push({ circle, ticker, body: circleBody, size: radius });
+        circles.push({ circle, size: radius, body: circleBody });
       }
     }
   }
@@ -79,11 +77,17 @@ document.body.onclick = (event) => {
   const radiusList = [20, 40, 60, 80, 100];
   const radius = radiusList[Math.floor(Math.random() * radiusList.length)];
 
-  const [circle, circleBody, tickerfunc] = CreateCircle(app, Matter, engine, 0xffffff, radius, event.clientX, 0);
-  const ticker = app.ticker.add(tickerfunc);
+  const circle = CreateCircle(app, 0xffffff, radius, event.clientX, 0);
+  const circleBody = AddBodyTicker(app, Matter, engine, circle, radius);
 
-  circles.push({ circle, ticker, body: circleBody, size: radius });
+  circles.push({ circle, size: radius, body: circleBody });
   
+
+  // setTimeout(() => {
+  //   const [newCircle, newCircleBody, newTickerfunc] = CreateCircle(app, Matter, engine, 0xffffff, radius, event.clientX, 0);
+
+  // }, 500)
+
   canClick = false;
   setTimeout(() => {
     canClick = true;

@@ -28,3 +28,14 @@ img {
   left: 6%;
   position: absolute;
 }
+
+
+.btn-start {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #4CAF50;
+  height: 300px;
+  width: 300px;
+}
