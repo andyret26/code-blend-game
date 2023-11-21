@@ -6,7 +6,7 @@ const app = new PIXI.Application({
   background: "#FBF4DA",
   resizeTo: window,
 });
-
+let isStarted = false;
 let score = 0;
 updateScore();
 
@@ -79,7 +79,8 @@ Matter.Events.on(engine, "collisionStart", (event) => {
 });
 
 let canClick = true;
-document.body.onclick = (event) => {
+document.getElementsByTagName("canvas")[0].addEventListener("click", () => {
+  if (!isStarted) return;
   if (!canClick) return;
   const radiusList = [20, 40, 60, 80, 100];
   const radius = radiusList[Math.floor(Math.random() * radiusList.length)];
@@ -99,8 +100,14 @@ document.body.onclick = (event) => {
   setTimeout(() => {
     canClick = true;
   }, 1000);
-};
+});
+
 
 function updateScore() {
   document.getElementById("score").innerHTML = score;
 }
+
+document.getElementById("btn-start").addEventListener("click", (e) => {
+  isStarted = true;
+  e.target.style.display = "none";
+});
