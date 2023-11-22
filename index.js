@@ -12,6 +12,12 @@ const radiusList = [20, 40, 60, 80];
 let isStarted = false;
 let score = 0;
 let currentCircle = null;
+
+let nextCircle = null;
+
+const nextOrbX = app.screen.width * 0.85;
+const nextOrbY = 200;
+
 updateScore();
 
 document.body.appendChild(app.view);
@@ -72,16 +78,21 @@ Matter.Events.on(engine, "collisionStart", (event) => {
         Matter.World.remove(engine.world, circleObjA.body);
         Matter.World.remove(engine.world, circleObjB.body);
         // change this to what is belowe
-          
+
         const circle = CreateCircle(
           app,
-          0xffffff,
           radius,
           x,
           y,
           GetImgFromRadius(radius)
         );
-        const newCircleBody = AddBodyTicker(app, Matter, engine, circle, radius);
+        const newCircleBody = AddBodyTicker(
+          app,
+          Matter,
+          engine,
+          circle,
+          radius
+        );
 
         circles.push({ circle: circle, size: radius, body: newCircleBody });
       }
@@ -95,24 +106,38 @@ document.getElementsByTagName("canvas")[0].addEventListener("click", (e) => {
   if (!canClick) return;
   if (CheckGameEdge(app, e.clientX)) return;
 
-
-
   // Add physics and collision to current cilcle so it drops
-  const circleBody = AddBodyTicker(app, Matter, engine, currentCircle, currentCircle._height/2);
-  circles.push({ circle: currentCircle, size: currentCircle._height/2, body: circleBody });
+  const circleBody = AddBodyTicker(
+    app,
+    Matter,
+    engine,
+    currentCircle,
+    currentCircle._height / 2
+  );
+  circles.push({
+    circle: currentCircle,
+    size: currentCircle._height / 2,
+    body: circleBody,
+  });
 
+  currentCircle = nextCircle;
+  currentCircle.position.set(e.clientX, 100);
 
   // Create new current circle
   const radius = radiusList[Math.floor(Math.random() * radiusList.length)];
-  currentCircle = CreateCircle(app, 0xffffff, radius, e.clientX, 100, GetImgFromRadius(radius));
-
+  nextCircle = CreateCircle(
+    app,
+    radius,
+    nextOrbX,
+    nextOrbY,
+    GetImgFromRadius(radius)
+  );
 
   canClick = false;
   setTimeout(() => {
     canClick = true;
   }, 1000);
 });
-
 
 function updateScore() {
   document.getElementById("score").innerHTML = score;
@@ -121,10 +146,13 @@ function updateScore() {
 document.getElementById("btn-start").addEventListener("click", (e) => {
   isStarted = true;
   e.target.style.display = "none";
-  const radius = radiusList[Math.floor(Math.random() * radiusList.length)];
-  const img = GetImgFromRadius(radius);
-  currentCircle = CreateCircle(app, 0xffffff, radius, e.clientX, 100, img);
-  
+  let radius = radiusList[Math.floor(Math.random() * radiusList.length)];
+  let img = GetImgFromRadius(radius);
+  currentCircle = CreateCircle(app, radius, e.clientX, 100, img);
+
+  radius = radiusList[Math.floor(Math.random() * radiusList.length)];
+  img = GetImgFromRadius(radius);
+  nextCircle = CreateCircle(app, radius, nextOrbX, nextOrbY, img);
 });
 
 app.view.addEventListener("mousemove", (e) => {

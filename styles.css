@@ -19,11 +19,15 @@ img {
 }
 
 .upNextContainer {
+  text-align: center;
   pointer-events: none;
   width: 10%;
-  top: 5%;
-  right: 10%;
+  top: 9%;
+  right: 9%;
   position: absolute;
+  > p {
+    color: black;
+  }
 }
 .scoreBoardContainer {
   display: flex;
@@ -51,13 +55,12 @@ p {
   margin: 0;
 }
 
-
 .btn-start {
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background-color: #4CAF50;
+  background-color: #4caf50;
   height: 100px;
   width: 300px;
 }

@@ -1,4 +1,4 @@
-export function CreateCircle(app, color, radius, spawnX, spawnY, imagePath) {
+export function CreateCircle(app, radius, spawnX, spawnY, imagePath) {
   // Create a new PIXI.Sprite with the specified image path
   let sprite = new PIXI.Sprite(PIXI.Texture.from(imagePath));
 
