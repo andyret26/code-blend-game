@@ -3,6 +3,7 @@ import { AddBodyTicker, CreateCircle } from "./CreateCircle.js";
 import { GetImgFromRadius } from "./GetImgFromRadius.js";
 import { CreateGameBoard } from "./world.js";
 
+setLeaderboard();
 // Create PIXI.js application
 const app = new PIXI.Application({
   background: "#FBF4DA",
@@ -227,12 +228,42 @@ function resetGame() {
       app.stage.removeChildAt(i);
     }
   }
-
   isStarted = false;
+  setScoreStorage(score, "test");
   score = 0; 
   updateScore(); 
   circles = [];
   document.getElementById("btn-start").style.display = "block";
+  
+  
+}
 
+
+function setScoreStorage(score, name) {
+  // set empty array if no score exists
+  if(localStorage.getItem("score") === null) {
+    localStorage.setItem("score", JSON.stringify([]));
+  }
+
+  // get current scores
+  const currentScores = JSON.parse(localStorage.getItem("score"));
+  console.log(currentScores)
+
+  // add new score to array
+  const test = { name: name, score: score }
+  currentScores.push(test)
+
+  localStorage.setItem("score", JSON.stringify(currentScores));
+}
+
+function setLeaderboard() {
+  const currentScores = JSON.parse(localStorage.getItem("score"));
+  console.log(currentScores)
+  for (const item of currentScores) {
+    const pToAdd = document.createElement("p");
+    pToAdd.textContent = `${item.name} - ${item.score}`;
+    const lb = document.getElementById("leaderboard-container").appendChild(pToAdd);
+    
+  }
 
 }
