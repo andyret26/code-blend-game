@@ -13,6 +13,7 @@ const radiusIncrement = 15;
 let isStarted = false;
 let score = 0;
 let currentCircle = null;
+const spawnY = app.screen.height - 650;
 
 let nextCircle = null;
 
@@ -170,7 +171,7 @@ document.getElementsByTagName("canvas")[0].addEventListener("click", (e) => {
   });
 
   currentCircle = nextCircle;
-  currentCircle.position.set(e.clientX, 100);
+  currentCircle.position.set(e.clientX, spawnY);
 
   // Create a new current circle
   const radius = radiusList[Math.floor(Math.random() * radiusList.length)];
@@ -197,7 +198,7 @@ document.getElementById("btn-start").addEventListener("click", (e) => {
   e.target.style.display = "none";
   let radius = radiusList[Math.floor(Math.random() * radiusList.length)];
   let img = GetImgFromRadius(radius);
-  currentCircle = CreateCircle(app, radius, e.clientX, 100, img);
+  currentCircle = CreateCircle(app, radius, e.clientX, spawnY, img);
 
   radius = radiusList[Math.floor(Math.random() * radiusList.length)];
   img = GetImgFromRadius(radius);
@@ -207,7 +208,7 @@ document.getElementById("btn-start").addEventListener("click", (e) => {
 app.view.addEventListener("mousemove", (e) => {
   if (!isStarted) return;
   if (CheckGameEdge(app, e.clientX)) return;
-  currentCircle.position.set(e.clientX, 100);
+  currentCircle.position.set(e.clientX, spawnY);
 });
 
 // RESET GAME STATE
