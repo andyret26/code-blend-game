@@ -59,11 +59,29 @@ p {
   margin: 0;
 }
 
-.btn-start {
+#startContainer {
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+  display: flex;
+  gap: 20px;
+  flex-direction: column;
+  > input {
+    width: 300px;
+    height: 50px;
+    border: none;
+    border-radius: 10px;
+    -webkit-box-shadow: 0px 0px 15px 5px #57b95a;
+    -moz-box-shadow: 0px 0px 15px 5px #57b95a;
+    box-shadow: 0px 0px 15px 5px #57b95a;
+    font-size: 1.5rem;
+    font-weight: bold;
+    padding-left: 10px;
+  }
+}
+
+.btn-start {
   background-color: #57b95a;
   height: 100px;
   width: 300px;

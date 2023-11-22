@@ -9,11 +9,18 @@ const app = new PIXI.Application({
   background: "#FBF4DA",
   resizeTo: window,
 });
+
+let player = null;
+const startBtn = document.getElementById("btn-start");
+const inputFeild = document.getElementById("nameInput");
+const startContainer = document.getElementById("startContainer");
+
 const radiusList = [20, 35, 50, 65];
 const radiusIncrement = 15;
 let isStarted = false;
 let score = 0;
 let currentCircle = null;
+const spawnY = app.screen.height - 650;
 
 let nextCircle = null;
 
@@ -171,7 +178,7 @@ document.getElementsByTagName("canvas")[0].addEventListener("click", (e) => {
   });
 
   currentCircle = nextCircle;
-  currentCircle.position.set(e.clientX, 100);
+  currentCircle.position.set(e.clientX, spawnY);
 
   // Create a new current circle
   const radius = radiusList[Math.floor(Math.random() * radiusList.length)];
@@ -193,12 +200,15 @@ function updateScore() {
   document.getElementById("score").innerHTML = score;
 }
 
-document.getElementById("btn-start").addEventListener("click", (e) => {
+startBtn.addEventListener("click", (e) => {
   isStarted = true;
-  e.target.style.display = "none";
+
+  player = inputFeild.value;
+  startContainer.style.display = "none";
+
   let radius = radiusList[Math.floor(Math.random() * radiusList.length)];
   let img = GetImgFromRadius(radius);
-  currentCircle = CreateCircle(app, radius, e.clientX, 100, img);
+  currentCircle = CreateCircle(app, radius, e.clientX, spawnY, img);
 
   radius = radiusList[Math.floor(Math.random() * radiusList.length)];
   img = GetImgFromRadius(radius);
@@ -208,7 +218,7 @@ document.getElementById("btn-start").addEventListener("click", (e) => {
 app.view.addEventListener("mousemove", (e) => {
   if (!isStarted) return;
   if (CheckGameEdge(app, e.clientX)) return;
-  currentCircle.position.set(e.clientX, 100);
+  currentCircle.position.set(e.clientX, spawnY);
 });
 
 // RESET GAME STATE
@@ -233,7 +243,7 @@ function resetGame() {
   score = 0; 
   updateScore(); 
   circles = [];
-  document.getElementById("btn-start").style.display = "block";
+  startContainer.style.display = "flex";
   
   
 }
@@ -267,3 +277,11 @@ function setLeaderboard() {
   }
 
 }
+
+document.getElementById("nameInput").addEventListener("input", () => {
+  if (inputFeild.value.trim() !== "") {
+    startBtn.disabled = false;
+  } else {
+    startBtn.disabled = true;
+  }
+});
