@@ -5,6 +5,8 @@ export function CreateGameBoard(engine, render, app) {
   const leftWallPosition = app.screen.width / 2 - 300;
   const rightWallPosition = app.screen.width / 2 + 300;
 
+  const horizontalLinePosition = app.screen.height - 500;
+
   const container = Matter.Composite.create();
   const leftWall = Matter.Bodies.rectangle(
     leftWallPosition,
@@ -29,7 +31,7 @@ export function CreateGameBoard(engine, render, app) {
   );
   const horizontalLine = Matter.Bodies.rectangle(
     app.screen.width / 2,
-    app.screen.height * 0.25,
+    horizontalLinePosition,
     app.screen.width,
     5,
     { isStatic: true, isSensor: true }
@@ -53,7 +55,7 @@ export function CreateGameBoard(engine, render, app) {
   lineGraphics.beginFill(0xec2024, 0.6);
   lineGraphics.drawRect(
     (app.screen.width - 600) / 2,
-    app.screen.height * 0.25,
+    horizontalLinePosition,
     600,
     5
   );
