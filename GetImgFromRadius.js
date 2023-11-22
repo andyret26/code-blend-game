@@ -1,13 +1,15 @@
 export function GetImgFromRadius(radius) {
-    if (radius === 20) return "./assets/orbs/Html.png";
-    if (radius === 40) return "./assets/orbs/Css.png";
-    if (radius === 60) return "./assets/orbs/Js.png";
-    if (radius === 80) return "./assets/orbs/TS.png";
-    if (radius === 100) return "./assets/orbs/ang.png";
-    if (radius === 120) return "./assets/orbs/React.png";
-    if (radius === 140) return "./assets/orbs/Java.png";
-    if (radius === 160) return "./assets/orbs/net.png";
-    if (radius === 180) return "./assets/orbs/Db.png";
-    if (radius === 200) return "./assets/orbs/AZ.png";
-    if (radius === 120) return "./assets/orbs/ex.png";
+    const orbTypes = ["Html", "Css", "Js", "TS", "ang", "React", "Java", "net", "Db", "AZ", "ex"];
+    const baseRadius = 20;
+    const increment = 15;
+    // Calculate the index based on the base radius and increment
+    // index = (radius-baseRadius)/increment
+    const index = Math.floor((radius - baseRadius) / increment);
+
+    // Check if the index is within the valid range
+    if (index >= 0 && index < orbTypes.length) {
+        return `./assets/orbs/${orbTypes[index]}.png`;
+    }
+
+    // Handle the case where the radius doesn't match any orb type
 }

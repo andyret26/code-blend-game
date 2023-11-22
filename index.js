@@ -8,7 +8,8 @@ const app = new PIXI.Application({
   background: "#FBF4DA",
   resizeTo: window,
 });
-const radiusList = [20, 40, 60, 80];
+const radiusList = [20, 35, 50, 65];
+const radiusIncrement = 15;
 let isStarted = false;
 let score = 0;
 let currentCircle = null;
@@ -62,7 +63,7 @@ Matter.Events.on(engine, "collisionStart", (event) => {
         circleObjA.circle.tint = 0xff0000; // This will turn the circle red
         const x = circleObjA.body.position.x;
         const y = circleObjA.body.position.y;
-        const radius = circleObjA.size + 20;
+        const radius = circleObjA.size + radiusIncrement;
 
         //add radius to score
         score += radius;
