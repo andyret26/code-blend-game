@@ -42,6 +42,48 @@ CreateGameBoard(engine, render, app);
 
 const circles = [];
 
+let collisionTimer = null;
+let hasCollisionWithLine = false;
+let timerDone = false;
+let counting = false;
+function startTImer() {
+  if (!counting) {
+    counting = true;
+    collisionTimer = setTimeout(() => {
+      timerDone = true;
+    }, 1000);
+  }
+}
+
+Matter.Events.on(engine, "collisionActive", (event) => {
+  if (timerDone && circles.length > 3) {
+    // game over
+    alert("game over");
+  }
+  const pairs = event.pairs;
+  for (let i = 0; i < pairs.length; i++) {
+    const pair = pairs[i];
+    if (
+      (pair.bodyA.id == 5 && pair.bodyB.label == "Circle Body") ||
+      (pair.bodyB.id == 5 && pair.bodyA.label == "Circle Body")
+    ) {
+      console.log("has collision with line");
+      hasCollisionWithLine = true;
+      break;
+    } else {
+      hasCollisionWithLine = false;
+    }
+  }
+  if (hasCollisionWithLine) {
+    startTImer();
+  } else {
+    clearTimeout(collisionTimer);
+    collisionTimer = null;
+    counting = false;
+    timerDone = false;
+  }
+});
+
 // Add a collision event listener to detect collisions with the ground
 Matter.Events.on(engine, "collisionStart", (event) => {
   const pairs = event.pairs;
@@ -58,6 +100,8 @@ Matter.Events.on(engine, "collisionStart", (event) => {
     // Check if one of the bodies is a circle and the other is the ground
     if (circleObjA && circleObjB) {
       if (circleObjA.size === circleObjB.size) {
+        // Check if one of the bodies is the line
+
         // Perform actions when a collision with the ground occurs
         // you can change the color of the circle
         circleObjA.circle.tint = 0xff0000; // This will turn the circle red
@@ -107,7 +151,10 @@ document.getElementsByTagName("canvas")[0].addEventListener("click", (e) => {
   if (!canClick) return;
   if (CheckGameEdge(app, e.clientX)) return;
 
-  // Add physics and collision to current cilcle so it drops
+  // Manually update the Matter.js engine to ensure collision detection
+  Matter.Engine.update(engine, engine.timing.delta);
+
+  // Add physics and collision to the current circle so it drops
   const circleBody = AddBodyTicker(
     app,
     Matter,
@@ -124,7 +171,7 @@ document.getElementsByTagName("canvas")[0].addEventListener("click", (e) => {
   currentCircle = nextCircle;
   currentCircle.position.set(e.clientX, 100);
 
-  // Create new current circle
+  // Create a new current circle
   const radius = radiusList[Math.floor(Math.random() * radiusList.length)];
   nextCircle = CreateCircle(
     app,

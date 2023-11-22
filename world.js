@@ -27,7 +27,20 @@ export function CreateGameBoard(engine, render, app) {
     50,
     { isStatic: true, restitution: 0.5 }
   );
-  Matter.World.add(engine.world, [container, leftWall, rightWall, ground]);
+  const horizontalLine = Matter.Bodies.rectangle(
+    app.screen.width / 2,
+    app.screen.height * 0.25,
+    app.screen.width,
+    5,
+    { isStatic: true, isSensor: true }
+  );
+  Matter.World.add(engine.world, [
+    container,
+    leftWall,
+    rightWall,
+    ground,
+    horizontalLine,
+  ]);
 
   // Create PIXI.js graphics for walls and ground
   const groundGraphics = new PIXI.Graphics();
@@ -35,6 +48,17 @@ export function CreateGameBoard(engine, render, app) {
   groundGraphics.drawRect(0, app.screen.height - 50, app.screen.width, 50);
   groundGraphics.endFill();
   app.stage.addChild(groundGraphics);
+
+  const lineGraphics = new PIXI.Graphics();
+  lineGraphics.beginFill(0xec2024, 0.6);
+  lineGraphics.drawRect(
+    (app.screen.width - 600) / 2,
+    app.screen.height * 0.25,
+    600,
+    5
+  );
+  lineGraphics.endFill();
+  app.stage.addChild(lineGraphics);
 
   const leftWallGraphics = new PIXI.Graphics();
   leftWallGraphics.beginFill(0x996633);
