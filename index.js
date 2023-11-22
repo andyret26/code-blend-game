@@ -40,7 +40,7 @@ const render = Matter.Render.create({
 
 CreateGameBoard(engine, render, app);
 
-const circles = [];
+let circles = [];
 
 let collisionTimer = null;
 let hasCollisionWithLine = false;
@@ -58,8 +58,10 @@ function startTImer() {
 Matter.Events.on(engine, "collisionActive", (event) => {
   if (timerDone && circles.length > 3) {
     // game over
-    alert("game over");
+    // alert("game over");
+    resetGame();
   }
+
   const pairs = event.pairs;
   for (let i = 0; i < pairs.length; i++) {
     const pair = pairs[i];
@@ -67,7 +69,6 @@ Matter.Events.on(engine, "collisionActive", (event) => {
       (pair.bodyA.id == 5 && pair.bodyB.label == "Circle Body") ||
       (pair.bodyB.id == 5 && pair.bodyA.label == "Circle Body")
     ) {
-      console.log("has collision with line");
       hasCollisionWithLine = true;
       break;
     } else {
@@ -208,3 +209,30 @@ app.view.addEventListener("mousemove", (e) => {
   if (CheckGameEdge(app, e.clientX)) return;
   currentCircle.position.set(e.clientX, 100);
 });
+
+// RESET GAME STATE
+function resetGame() {
+  // remove all matter body circles
+  circles.forEach((circleObj) => {
+    app.stage.removeChild(circleObj.circle);
+    Matter.World.remove(engine.world, circleObj.body);
+  });
+  // Iterate through each child of the stage
+  for (let i = app.stage.children.length - 1; i >= 0; i--) {
+    const child = app.stage.children[i];
+
+    // Check if the child is a sprite
+    if (child instanceof PIXI.Sprite) {
+      // Remove the sprite from the stage
+      app.stage.removeChildAt(i);
+    }
+  }
+
+  isStarted = false;
+  score = 0; 
+  updateScore(); 
+  circles = [];
+  document.getElementById("btn-start").style.display = "block";
+
+
+}

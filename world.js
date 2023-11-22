@@ -5,7 +5,7 @@ export function CreateGameBoard(engine, render, app) {
   const leftWallPosition = app.screen.width / 2 - 300;
   const rightWallPosition = app.screen.width / 2 + 300;
 
-  const horizontalLinePosition = app.screen.height - 500;
+  const horizontalLinePosition = app.screen.height - 800
 
   const container = Matter.Composite.create();
   const leftWall = Matter.Bodies.rectangle(
