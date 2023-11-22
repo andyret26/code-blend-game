@@ -4,11 +4,10 @@ body {
 }
 .orbsOrderContainer {
   pointer-events: none;
-  transform-origin: right;
-  transform: rotate(90deg);
-  bottom: -3%;
-  right: 14%;
-  height: 20%;
+  transform-origin: bottom;
+  bottom: 3%;
+  right: 10%;
+  height: 450px;
   position: absolute;
 }
 img {
@@ -19,11 +18,9 @@ img {
 }
 
 .upNextContainer {
-  text-align: center;
   pointer-events: none;
-  width: 10%;
   top: 9%;
-  right: 9%;
+  left: 83%;
   position: absolute;
   > p {
     color: black;

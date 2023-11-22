@@ -49,6 +49,6 @@ export function CreateGameBoard(engine, render, app) {
   app.stage.addChild(rightWallGraphics);
 
   // Run Matter.js engine and renderer
-  Matter.Engine.run(engine);
-  Matter.Render.run(render);
+  Matter.Runner.run(engine);
+  Matter.Runner.run(render);
 }
