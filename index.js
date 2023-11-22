@@ -8,6 +8,12 @@ const app = new PIXI.Application({
   background: "#FBF4DA",
   resizeTo: window,
 });
+
+let player = null;
+const startBtn = document.getElementById("btn-start");
+const inputFeild = document.getElementById("nameInput");
+const startContainer = document.getElementById("startContainer");
+
 const radiusList = [20, 35, 50, 65];
 const radiusIncrement = 15;
 let isStarted = false;
@@ -193,9 +199,12 @@ function updateScore() {
   document.getElementById("score").innerHTML = score;
 }
 
-document.getElementById("btn-start").addEventListener("click", (e) => {
+startBtn.addEventListener("click", (e) => {
   isStarted = true;
-  e.target.style.display = "none";
+
+  player = inputFeild.value;
+  startContainer.style.display = "none";
+
   let radius = radiusList[Math.floor(Math.random() * radiusList.length)];
   let img = GetImgFromRadius(radius);
   currentCircle = CreateCircle(app, radius, e.clientX, spawnY, img);
@@ -230,10 +239,16 @@ function resetGame() {
   }
 
   isStarted = false;
-  score = 0; 
-  updateScore(); 
+  score = 0;
+  updateScore();
   circles = [];
-  document.getElementById("btn-start").style.display = "block";
-
-
+  startContainer.style.display = "flex";
 }
+
+document.getElementById("nameInput").addEventListener("input", () => {
+  if (inputFeild.value.trim() !== "") {
+    startBtn.disabled = false;
+  } else {
+    startBtn.disabled = true;
+  }
+});
