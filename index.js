@@ -20,7 +20,7 @@ const radiusIncrement = 15;
 let isStarted = false;
 let score = 0;
 let currentCircle = null;
-const spawnY = app.screen.height - 650;
+const spawnY = app.screen.height - 870;
 
 let nextCircle = null;
 
