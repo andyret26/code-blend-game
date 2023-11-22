@@ -1,6 +1,8 @@
 body {
   overflow: hidden;
   height: 100vh;
+  background-color: #fbf4da;
+  z-index: -10000;
 }
 .orbsOrderContainer {
   pointer-events: none;
@@ -10,6 +12,7 @@ body {
   height: 450px;
   position: absolute;
 }
+
 img {
   pointer-events: none;
   width: 100%;
@@ -26,6 +29,7 @@ img {
     color: black;
   }
 }
+
 .scoreBoardContainer {
   display: flex;
   justify-content: center;
@@ -72,6 +76,28 @@ p {
 .btn-start:hover {
   background-color: #62de66;
   cursor: pointer;
+}
+
+.leaderboard-container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-900px, -100px);
+  background-color: white;
+  height: 500px;
+  width: 500px;
+  border: none;
+  border-radius: 10px;
+  -webkit-box-shadow:0px 0px 15px 5px white;
+  -moz-box-shadow: 0px 0px 15px 5px white;
+  box-shadow: 0px 0px 15px 5px white;
+  font-size: 1.5rem;
+  font-weight: bold;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 2;
 }
 
 
