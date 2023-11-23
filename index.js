@@ -239,7 +239,8 @@ function resetGame() {
     }
   }
   isStarted = false;
-  setScoreStorage(score, "test");
+  setScoreStorage(score, player);
+  setLeaderboard()
   score = 0; 
   updateScore(); 
   circles = [];
@@ -260,21 +261,39 @@ function setScoreStorage(score, name) {
   console.log(currentScores)
 
   // add new score to array
-  const test = { name: name, score: score }
-  currentScores.push(test)
+  const newScore = { name: name, score: score }
+  currentScores.push(newScore)
 
   localStorage.setItem("score", JSON.stringify(currentScores));
 }
 
 function setLeaderboard() {
-  const currentScores = JSON.parse(localStorage.getItem("score"));
-  console.log(currentScores)
-  for (const item of currentScores) {
-    const pToAdd = document.createElement("p");
-    pToAdd.textContent = `${item.name} - ${item.score}`;
-    const lb = document.getElementById("leaderboard-container").appendChild(pToAdd);
-    
+  const lb = document.getElementById("leaderboard-container")
+  // delete all children
+  while (lb.firstChild) {
+    lb.removeChild(lb.firstChild);
   }
+
+  // get current scores
+  const currentScores = JSON.parse(localStorage.getItem("score"));
+  if(currentScores === null || currentScores.length === 0) {
+    document.getElementById("leaderboard-container").textContent = "No scores yet!"
+    return
+  };
+
+  // sort scores
+  currentScores.sort((a, b) => {
+    return b.score - a.score;
+  })
+
+  currentScores.forEach((item, i)=> {
+    const pToAdd = document.createElement("p");
+    pToAdd.textContent = `${i+1}. ${item.name} - ${item.score}`;
+    pToAdd.className = "lb-text"
+    document.getElementById("leaderboard-container").appendChild(pToAdd);
+  })
+    
+  
 
 }
 
