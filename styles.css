@@ -124,3 +124,17 @@ p {
   text-align: start;
   width: 100%;
 }
+
+.lb-text:nth-child(1) {
+  font-size: 3rem;
+  /* color: rgb(247, 217, 48); */
+  color: #fbe057;
+}
+.lb-text:nth-child(2) {
+  font-size: 2.5rem;
+  color: #9cd1ff;
+}
+.lb-text:nth-child(3) {
+  font-size: 2rem;
+  color: #d17f00;
+}
